@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>D&H Social</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  width: 320px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+#app {
+  display: none;
+  width: 100%;
+  max-width: 500px;
+}
+
+header {
+  text-align: center;
+  padding: 15px;
+  background: #1e293b;
+}
+.post {
+  background: #1e293b;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN / CADASTRO -->
+<div class="box" id="auth">
+
+  <h2>🚀 D&H Social</h2>
+
+  <input id="user" placeholder="Nome de usuário">
+  <input id="pass" type="password" placeholder="Senha">
+
+  <button onclick="register()">Cadastrar</button>
+  <button onclick="login()">Entrar</button>
+
+  <p id="msg"></p>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<header>
+  <h1>Bem-vindo 👋 <span id="name"></span></h1>
+</header>
+
+<div style="padding:10px;">
+
+  <input id="post" placeholder="Criar post...">
+  <button onclick="createPost()">Publicar</button>
+
+  <div id="feed"></div>
+
+</div>
+
+</div>
+
+<script>
+
+// CADASTRO
+function register() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (!u || !p) return;
+
+  localStorage.setItem("user_" + u, p);
+
+  document.getElementById("msg").innerText = "Conta criada!";
+}
+
+// LOGIN
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  let saved = localStorage.getItem("user_" + u);
+
+  if (saved === p) {
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("name").innerText = u;
+  } else {
+    document.getElementById("msg").innerText = "Login inválido";
+  }
+}
+
+// POSTS
+function createPost() {
+  let text = document.getElementById("post").value;
+  if (!text) return;
+
+  let div = document.createElement("div");
+  div.className = "post";
+  div.innerText = text;
+
+  document.getElementById("feed").prepend(div);
+
+  document.getElementById("post").value = "";
+}
+
+</script>
+
+</body>
+</html>
