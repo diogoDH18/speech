@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Mini Rede Social</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+}
+
+header {
+  padding: 15px;
+  background: #1e293b;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.post {
+  background: #1e293b;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+img {
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📸 Mini Rede Social</h1>
+</header>
+
+<div class="container">
+
+  <input type="file" accept="image/*" capture="environment" id="camera" style="display:none">
+
+  <button onclick="openCamera()">📷 Tirar Foto</button>
+
+  <div id="feed"></div>
+
+</div>
+
+<script>
+
+function openCamera() {
+  document.getElementById("camera").click();
+}
+
+document.getElementById("camera").addEventListener("change", function(e) {
+  let file = e.target.files[0];
+
+  if (!file) return;
+
+  let reader = new FileReader();
+
+  reader.onload = function(event) {
+    let post = document.createElement("div");
+    post.className = "post";
+
+    post.innerHTML = `
+      <p>📸 Novo post</p>
+      <img src="${event.target.result}">
+      <button onclick="alert('Curtido ❤️')">Curtir</button>
+    `;
+
+    document.getElementById("feed").prepend(post);
+
+    savePost(event.target.result);
+  };
+
+  reader.readAsDataURL(file);
+});
+
+// salvar no navegador
+function savePost(img) {
+  let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+  posts.unshift(img);
+  localStorage.setItem("posts", JSON.stringify(posts));
+}
+
+// carregar posts salvos
+window.onload = function() {
+  let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+
+  posts.forEach(img => {
+    let post = document.createElement("div");
+    post.className = "post";
+
+    post.innerHTML = `
+      <p>📸 Post salvo</p>
+      <img src="${img}">
+    `;
+
+    document.getElementById("feed").appendChild(post);
+  });
+}
+
+</script>
+
+</body>
+</html>
