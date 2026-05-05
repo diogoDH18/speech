@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Rede Social Personalizável</title>
+
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --text: white;
+  --accent: #2563eb;
+}
+
+body {
+  margin: 0;
+  font-family: Arial;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  text-align: center;
+  padding: 15px;
+  background: var(--card);
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+.box {
+  background: var(--card);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎨 Personalizar Rede Social</h1>
+</header>
+
+<div class="container">
+
+  <div class="box">
+    <h3>Personalizar estilo</h3>
+
+    <input type="color" id="bg" title="Fundo">
+    <input type="color" id="card" title="Card">
+    <input type="color" id="accent" title="Botões">
+
+    <button onclick="applyTheme()">Aplicar tema</button>
+    <button onclick="resetTheme()">Resetar</button>
+  </div>
+
+</div>
+
+<script>
+
+function applyTheme() {
+  let bg = document.getElementById("bg").value;
+  let card = document.getElementById("card").value;
+  let accent = document.getElementById("accent").value;
+
+  document.documentElement.style.setProperty("--bg", bg);
+  document.documentElement.style.setProperty("--card", card);
+  document.documentElement.style.setProperty("--accent", accent);
+
+  localStorage.setItem("bg", bg);
+  localStorage.setItem("card", card);
+  localStorage.setItem("accent", accent);
+}
+
+function resetTheme() {
+  localStorage.clear();
+  location.reload();
+}
+
+// carregar tema salvo
+window.onload = function() {
+  if (localStorage.getItem("bg")) {
+    document.documentElement.style.setProperty("--bg", localStorage.getItem("bg"));
+    document.documentElement.style.setProperty("--card", localStorage.getItem("card"));
+    document.documentElement.style.setProperty("--accent", localStorage.getItem("accent"));
+  }
+}
+</script>
+
+</body>
+</html>
