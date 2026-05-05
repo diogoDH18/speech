@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Mini Corrida - Criador</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 15px;
+  background: #1e293b;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+.box {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+#creatorArea {
+  display: none;
+}
+
+.badge {
+  background: #1d4ed8;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🤖 Mini Corrida</h1>
+</header>
+
+<div class="container">
+
+<!-- LOGIN CRIADOR -->
+<div class="box" id="loginBox">
+  <h3>Área do Criador</h3>
+
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Senha">
+
+  <button onclick="login()">Entrar</button>
+
+  <p id="msg"></p>
+</div>
+
+<!-- ÁREA CRIADOR -->
+<div class="box" id="creatorArea">
+  <h3>
+    👑 Diogo Henrique
+    <span class="badge">✔ Verificado</span>
+  </h3>
+
+  <p>Bem-vindo à área de criador da D&Happs 🚀</p>
+</div>
+
+</div>
+
+<script>
+
+const CREATOR_EMAIL = "diogovicentin89@gmail.com";
+const CREATOR_PASSWORD = "12096";
+
+function login() {
+  let email = document.getElementById("email").value;
+  let pass = document.getElementById("password").value;
+
+  if (email === CREATOR_EMAIL && pass === CREATOR_PASSWORD) {
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("creatorArea").style.display = "block";
+
+  } else {
+    document.getElementById("msg").innerText =
+      "❌ Acesso negado";
+  }
+}
+
+</script>
+
+</body>
+</html>
