@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>D&H Social</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+/* LOGIN */
+.center {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  width: 320px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: none;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* APP */
+#app {
+  display: none;
+}
+
+header {
+  background: #1e293b;
+  padding: 15px;
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+.post {
+  background: #1e293b;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="center" id="loginPage">
+  <div class="box">
+
+    <h2>🚀 D&H Social</h2>
+
+    <input id="user" placeholder="Usuário">
+    <input id="pass" type="password" placeholder="Senha">
+
+    <button onclick="register()">Cadastrar</button>
+    <button onclick="login()">Entrar</button>
+
+    <p id="msg"></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<header>
+  <h2>Bem-vindo 👋 <span id="name"></span></h2>
+</header>
+
+<div class="container">
+
+  <div class="box">
+    <input id="post" placeholder="Criar post...">
+    <button onclick="createPost()">Publicar</button>
+  </div>
+
+  <div id="feed"></div>
+
+</div>
+
+</div>
+
+<script>
+
+// CADASTRO
+function register() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (!u || !p) return;
+
+  localStorage.setItem("user_" + u, p);
+
+  document.getElementById("msg").innerText = "Conta criada!";
+}
+
+// LOGIN
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  let saved = localStorage.getItem("user_" + u);
+
+  if (saved === p) {
+    localStorage.setItem("loggedUser", u);
+
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    document.getElementById("name").innerText = u;
+
+    loadPosts();
+
+  } else {
+    document.getElementById("msg").innerText = "Login inválido";
+  }
+}
+
+// POSTAR
+function createPost() {
+  let text = document.getElementById("post").value;
+  let user = localStorage.getItem("loggedUser");
+
+  if (!text) return;
+
+  let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+
+  posts.unshift({
+    user: user,
+    text: text
+  });
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  document.getElementById("post").value = "";
+
+  loadPosts();
+}
+
+// CARREGAR POSTS
+function loadPosts() {
+  let feed = document.getElementById("feed");
+  feed.innerHTML = "";
+
+  let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+
+  posts.forEach(p => {
+    let div = document.createElement("div");
+    div.className = "post";
+
+    div.innerHTML = `
+      <b>@${p.user}</b>
+      <p>${p.text}</p>
+    `;
+
+    feed.appendChild(div);
+  });
+}
+
+// AUTO LOGIN
+window.onload = function() {
+  let u = localStorage.getItem("loggedUser");
+
+  if (u) {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    document.getElementById("name").innerText = u;
+    loadPosts();
+  }
+}
+
+</script>
+
+</body>
+</html>
