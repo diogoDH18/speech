@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Descobrir Atletas</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 15px;
+  background: #1e293b;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 15px;
+}
+
+.user {
+  background: #1e293b;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  background: #2563eb;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🔎 Descobrir Atletas</h1>
+</header>
+
+<div class="container">
+
+<input id="search" placeholder="Buscar usuário..." onkeyup="filterUsers()">
+
+<div id="list">
+
+  <div class="user">
+    <div>
+      <b>@cr7</b>
+      <div class="small">Futebol ⚽</div>
+    </div>
+    <button onclick="follow(this)">Seguir</button>
+  </div>
+
+  <div class="user">
+    <div>
+      <b>@lebron</b>
+      <div class="small">Basquete 🏀</div>
+    </div>
+    <button onclick="follow(this)">Seguir</button>
+  </div>
+
+  <div class="user">
+    <div>
+      <b>@usain</b>
+      <div class="small">Atletismo 🏃</div>
+    </div>
+    <button onclick="follow(this)">Seguir</button>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function follow(btn) {
+  if (btn.innerText === "Seguir") {
+    btn.innerText = "Seguindo ✓";
+  } else {
+    btn.innerText = "Seguir";
+  }
+}
+
+function filterUsers() {
+  let input = document.getElementById("search").value.toLowerCase();
+  let users = document.querySelectorAll(".user");
+
+  users.forEach(user => {
+    let name = user.innerText.toLowerCase();
+    user.style.display = name.includes(input) ? "flex" : "none";
+  });
+}
+</script>
+
+</body>
+</html>
