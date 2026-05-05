@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>D&H Social</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+header {
+  padding: 15px;
+  text-align: center;
+  background: #1e293b;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+.box {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.post {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+
+.user {
+  font-weight: bold;
+  color: #60a5fa;
+}
+
+.small {
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚀 D&H Social</h1>
+  <p>rede social oficial da D&Happs</p>
+</header>
+
+<div class="container">
+
+<!-- PERFIL -->
+<div class="box">
+  <h3>Seu Perfil</h3>
+  <input id="name" placeholder="Nome de usuário">
+  <textarea id="bio" placeholder="Sua bio"></textarea>
+</div>
+
+<!-- CRIAR POST -->
+<div class="box">
+  <h3>Criar Post</h3>
+  <textarea id="postText" placeholder="O que você quer postar?"></textarea>
+  <button onclick="createPost()">Publicar</button>
+</div>
+
+<!-- FEED -->
+<div id="feed"></div>
+
+</div>
+
+<script>
+
+function createPost() {
+  let name = document.getElementById("name").value;
+  let bio = document.getElementById("bio").value;
+  let text = document.getElementById("postText").value;
+
+  if (text.trim() === "") return;
+
+  let post = document.createElement("div");
+  post.className = "post";
+
+  post.innerHTML = `
+    <div class="user">
+      ${name || "Anônimo"}
+    </div>
+    <div class="small">${bio}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("feed").prepend(post);
+
+  document.getElementById("postText").value = "";
+}
+
+</script>
+
+</body>
+</html>
