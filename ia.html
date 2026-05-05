@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>IA Amiga</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+header {
+  text-align: center;
+  padding: 15px;
+  background: #1e293b;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+.chat {
+  background: #1e293b;
+  height: 400px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.msg-user {
+  text-align: right;
+  margin: 5px 0;
+}
+
+.msg-ai {
+  text-align: left;
+  margin: 5px 0;
+  color: #60a5fa;
+}
+
+input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 28%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🤖 IA Amiga (Só amizade)</h1>
+</header>
+
+<div class="container">
+
+<div class="chat" id="chat"></div>
+
+<div>
+  <input id="msg" placeholder="Fala comigo...">
+  <button onclick="send()">Enviar</button>
+</div>
+
+</div>
+
+<script>
+
+function addMsg(text, type) {
+  let div = document.createElement("div");
+  div.className = type;
+  div.innerText = text;
+  document.getElementById("chat").appendChild(div);
+
+  document.getElementById("chat").scrollTop =
+    document.getElementById("chat").scrollHeight;
+}
+
+function aiResponse(text) {
+  text = text.toLowerCase();
+
+  if (text.includes("oi") || text.includes("olá")) {
+    return "Oi 😊 como você tá hoje?";
+  }
+
+  if (text.includes("triste")) {
+    return "Poxa… quer conversar? tô aqui como amigo 🤝";
+  }
+
+  if (text.includes("feliz")) {
+    return "Que bom 😄 fico feliz por você!";
+  }
+
+  if (text.includes("esporte")) {
+    return "Esportes são incríveis 🏃⚽ você gosta de qual?";
+  }
+
+  return "Entendi 👍 me conta mais sobre isso.";
+}
+
+function send() {
+  let input = document.getElementById("msg");
+  let text = input.value;
+
+  if (text.trim() === "") return;
+
+  addMsg(text, "msg-user");
+
+  setTimeout(() => {
+    let resp = aiResponse(text);
+    addMsg(resp, "msg-ai");
+  }, 500);
+
+  input.value = "";
+}
+
+</script>
+
+</body>
+</html>
