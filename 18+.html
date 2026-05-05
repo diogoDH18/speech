@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Acesso 18+</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+#site {
+  display: none;
+  padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box" id="gate">
+  <h2>🔐 Verificação 18+</h2>
+  <p>Digite sua idade</p>
+  <input type="number" id="age" placeholder="Ex: 18">
+  <button onclick="checkAge()">Entrar</button>
+  <p id="msg"></p>
+</div>
+
+<div id="site">
+  <h1>🚀 Bem-vindo ao site</h1>
+  <p>Acesso liberado para maiores de 18 anos</p>
+</div>
+
+<script>
+function checkAge() {
+  let age = document.getElementById("age").value;
+
+  if (age >= 18) {
+    document.getElementById("gate").style.display = "none";
+    document.getElementById("site").style.display = "block";
+  } else {
+    document.getElementById("msg").innerText =
+      "❌ Você precisa ter 18 anos ou mais.";
+  }
+}
+</script>
+
+</body>
+</html>
