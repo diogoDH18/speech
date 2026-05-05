@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>D&H Social</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+/* CENTRO */
+.center {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  width: 320px;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: none;
+  border-radius: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+/* APP */
+#app, #creator {
+  display: none;
+}
+
+header {
+  background: #1e293b;
+  padding: 15px;
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 15px;
+}
+
+.post {
+  background: #1e293b;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.badge {
+  background: #1d4ed8;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN / CADASTRO -->
+<div class="center" id="auth">
+
+  <div class="box">
+    <h2>🚀 D&H Social</h2>
+
+    <input id="user" placeholder="Usuário">
+    <input id="pass" type="password" placeholder="Senha">
+
+    <button onclick="register()">Cadastrar</button>
+    <button onclick="login()">Entrar</button>
+
+    <p id="msg"></p>
+  </div>
+
+</div>
+
+<!-- APP NORMAL -->
+<div id="app">
+
+<header>
+  <h2>Feed da Rede Social</h2>
+  <button onclick="openCreator()">Área de Criador 👑</button>
+</header>
+
+<div class="container">
+
+  <input id="post" placeholder="Criar post...">
+  <button onclick="createPost()">Publicar</button>
+
+  <div id="feed"></div>
+
+</div>
+
+</div>
+
+<!-- ÁREA DE CRIADOR -->
+<div id="creator">
+
+<header>
+  <h2>👑 Área do Criador</h2>
+</header>
+
+<div class="container">
+
+  <h3>
+    Diogo Henrique
+    <span class="badge">✔ Verificado</span>
+  </h3>
+
+  <p>Bem-vindo à equipe D&Happs 🚀</p>
+
+  <button onclick="back()">Voltar</button>
+
+</div>
+
+</div>
+
+<script>
+
+const CREATOR_EMAIL = "diogovicentin89@gmail.com";
+const CREATOR_PASS = "12096";
+
+// CADASTRO
+function register() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if (!u || !p) return;
+
+  localStorage.setItem("user_" + u, p);
+
+  document.getElementById("msg").innerText = "Conta criada!";
+}
+
+// LOGIN
+function login() {
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  let saved = localStorage.getItem("user_" + u);
+
+  // LOGIN CRIADOR
+  if (u === CREATOR_EMAIL && p === CREATOR_PASS) {
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("creator").style.display = "block";
+    return;
+  }
+
+  // LOGIN NORMAL
+  if (saved === p) {
+    localStorage.setItem("loggedUser", u);
+
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    loadPosts();
+  } else {
+    document.getElementById("msg").innerText = "Login inválido";
+  }
+}
+
+// POSTS
+function createPost() {
+  let text = document.getElementById("post").value;
+  let user = localStorage.getItem("loggedUser");
+
+  if (!text) return;
+
+  let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+
+  posts.unshift({ user, text });
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  document.getElementById("post").value = "";
+
+  loadPosts();
+}
+
+function loadPosts() {
+  let feed = document.getElementById("feed");
+  feed.innerHTML = "";
+
+  let posts = JSON.parse(localStorage.getItem("posts") || "[]");
+
+  posts.forEach(p => {
+    let div = document.createElement("div");
+    div.className = "post";
+
+    div.innerHTML = `<b>@${p.user}</b><p>${p.text}</p>`;
+
+    feed.appendChild(div);
+  });
+}
+
+// ÁREA CRIADOR
+function openCreator() {
+  document.getElementById("app").style.display = "none";
+  document.getElementById("creator").style.display = "block";
+}
+
+function back() {
+  document.getElementById("creator").style.display = "none";
+  document.getElementById("app").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
